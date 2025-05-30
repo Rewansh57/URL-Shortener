@@ -13,7 +13,7 @@ public class Encoding {
     private UrlRepository urlRepository;
     private final int maxLength = 7;
     private final String alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-    private final char paddingChar = 'A';
+
 
     public String encoder(String url) {
         StringBuilder result = new StringBuilder();

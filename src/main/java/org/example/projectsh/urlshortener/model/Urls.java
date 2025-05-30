@@ -1,11 +1,10 @@
 package org.example.projectsh.urlshortener.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
@@ -16,7 +15,10 @@ public class Urls {
     private Long id;
     private String url;
     private String shortCode;
+    @CreatedDate
+    @Column(updatable=false)
     private String creationDate;
+    @LastModifiedDate
     private String lastAccessDate;
     private int accessCount;
 
