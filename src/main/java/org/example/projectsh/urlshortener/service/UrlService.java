@@ -16,24 +16,27 @@ public class UrlService {
 
 
 
-    public String encode(String url){
+    public Urls encode(String url){
         Urls record=new Urls();
         String shortCode=encoding.encoder(url);
         record.setShortCode(shortCode);
         record.setUrl(url);
         record.setAccessCount(1);
         urlRepository.save(record);
-        return shortCode;
+        return record;
 
     }
 
-    public String find(String shortUrl ) {
+    public Urls find(String shortUrl ) {
        Optional<Urls> recordByShort= urlRepository.findByShortUrl(shortUrl);
        if (recordByShort.isPresent()){
-           return recordByShort.get().getUrl();
+           return recordByShort.get();
+
        }
        else {
-           throw new NullPointerException("No such url was shorted :"+shortUrl);
+           return null;
+
+
 
         }
 
@@ -42,17 +45,34 @@ public class UrlService {
     }
 
 
-    public String updateByShortUrl(String shortUrl, String changedLongUrl) {
+    public Urls updateByShortUrl(String shortUrl, String changedLongUrl) {
         Optional<Urls> recordByShort= urlRepository.findByShortUrl(shortUrl);
         if (recordByShort.isPresent()){
             recordByShort.get().setUrl(changedLongUrl);
-            return recordByShort.get().getUrl();
-
+            urlRepository.save(recordByShort.get());
+            return recordByShort.get();
 
 
         }
         else {
-            throw new NullPointerException("No such short url was present :"+shortUrl);
+            return null;
+
+
+        }
+    }
+
+    public Urls deleteShortUrl(String shortUrl) {
+        Optional<Urls> recordByShort= urlRepository.findByShortUrl(shortUrl);
+        if(recordByShort.isPresent()){
+            recordByShort.get().setShortCode(null);
+            urlRepository.save(recordByShort.get());
+            return recordByShort.get();
+
+
+        }
+        else {
+            return null;
+
 
         }
     }
