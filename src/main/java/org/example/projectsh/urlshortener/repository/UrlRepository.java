@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface UrlRepository extends JpaRepository<Urls,Long> {
-    @Query("Select a from Urls a where a.url=:longUrl")
-    Optional<Urls> findByShortUrl(@Param("longUrl") String shortUrl);
+    @Query("Select a from Urls a where a.shortCode=:shortCode")
+    Optional<Urls> findByShortCode(@Param("shortCode") String shortCode);
 
 }

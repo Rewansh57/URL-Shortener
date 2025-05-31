@@ -1,6 +1,7 @@
 package org.example.projectsh.urlshortener.service;
 
 
+import lombok.RequiredArgsConstructor;
 import org.example.projectsh.urlshortener.model.Urls;
 import org.example.projectsh.urlshortener.repository.UrlRepository;
 import org.springframework.stereotype.Component;
@@ -9,8 +10,9 @@ import java.util.Optional;
 import java.util.random.RandomGenerator;
 
 @Component
+@RequiredArgsConstructor
 public class Encoding {
-    private UrlRepository urlRepository;
+    private final  UrlRepository urlRepository;
     private final int maxLength = 7;
     private final String alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
@@ -25,7 +27,7 @@ public class Encoding {
 
 
         }
-        Optional<Urls> option = urlRepository.findByShortUrl(result.toString());
+        Optional<Urls> option = urlRepository.findByShortCode(result.toString());
         if (option.isPresent()) {
             return encoder(url);
 

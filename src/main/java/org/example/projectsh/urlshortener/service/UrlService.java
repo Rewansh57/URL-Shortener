@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 
-@RequiredArgsConstructor
+
 @Service
 public class UrlService {
     private final UrlRepository urlRepository;
@@ -16,7 +16,18 @@ public class UrlService {
 
 
 
+    public UrlService(UrlRepository urlRepository, Encoding encoding) {
+        this.urlRepository = urlRepository;
+        this.encoding = encoding;
+
+
+    }
+
+
+
     public Urls encode(String url){
+
+
         Urls record=new Urls();
         String shortCode=encoding.encoder(url);
         record.setShortCode(shortCode);
@@ -28,7 +39,7 @@ public class UrlService {
     }
 
     public Urls find(String shortUrl ) {
-       Optional<Urls> recordByShort= urlRepository.findByShortUrl(shortUrl);
+       Optional<Urls> recordByShort= urlRepository.findByShortCode(shortUrl);
        if (recordByShort.isPresent()){
            return recordByShort.get();
 
@@ -46,7 +57,7 @@ public class UrlService {
 
 
     public Urls updateByShortUrl(String shortUrl, String changedLongUrl) {
-        Optional<Urls> recordByShort= urlRepository.findByShortUrl(shortUrl);
+        Optional<Urls> recordByShort= urlRepository.findByShortCode(shortUrl);
         if (recordByShort.isPresent()){
             recordByShort.get().setUrl(changedLongUrl);
             urlRepository.save(recordByShort.get());
@@ -62,7 +73,7 @@ public class UrlService {
     }
 
     public Urls deleteShortUrl(String shortUrl) {
-        Optional<Urls> recordByShort= urlRepository.findByShortUrl(shortUrl);
+        Optional<Urls> recordByShort= urlRepository.findByShortCode(shortUrl);
         if(recordByShort.isPresent()){
             recordByShort.get().setShortCode(null);
             urlRepository.save(recordByShort.get());
